@@ -5,5 +5,5 @@ Example:
 
 ```
 	cd usage
-	go run compute_complexity.go t1.fasta t2.fasta t3.fasta
+	go run compute_complexity.go chr1.fasta chr2.fasta chr3.fasta
 ```
