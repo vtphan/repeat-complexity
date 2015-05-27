@@ -1,4 +1,4 @@
-package genomecomplexity
+package repeatcomplexity
 
 const (
 	maxInt = int(^uint(0) >> 1)

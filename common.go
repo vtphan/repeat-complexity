@@ -1,4 +1,4 @@
-package genomecomplexity
+package repeatcomplexity
 
 func setAllToEmpty(SA []int) {
 	for i := range SA {

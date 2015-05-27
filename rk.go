@@ -3,7 +3,7 @@ Author: Vinhthuy Phan, Shanshan Gao
 Copyright 2014
 Measures of complexity: I, Ik, D, Dk, Rk
 */
-package genomecomplexity
+package repeatcomplexity
 
 import (
     // "fmt"

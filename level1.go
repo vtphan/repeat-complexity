@@ -1,4 +1,4 @@
-package genomecomplexity
+package repeatcomplexity
 
 // After filling in LMS suffixes using the "end of bucket is a counter"
 // algorithm from section 4.2, we need to loop over SA and fix any bucket
