@@ -79,35 +79,38 @@ func (idx Index) Locate_contig(i int, k int) int {
   return -1
 }
 
-func (idx Index) Block(m int, k int) int {
-  for i := m; i < len(idx.data)-1; i++ {
-    fmt.Println("\t",i, idx.sa[i], string(idx.data[idx.sa[i] : idx.sa[i]+k]), "contig", idx.Locate_contig(idx.sa[i], k))
-    if idx.lcp[i] < k {
-        return (i - 1)
-    }
-  }
-  return len(idx.data) - 2
-}
-
-// Rk = k-repeat density
+// k-repeat complexity for all contigs
 func (idx Index) Rk(k int) []float64{
-  var c uint64 = 0
-  i, j := 0, 0
-  var contig int
+  j, b := 0, 0
+  var contig, contig_count int
   contig_flag := make([]bool, len(idx.Repeat_count))
 
-  for i < len(idx.data)-1 {
-    // fmt.Println(i, idx.lcp[i], idx.Block(i,k), c)
+  for i:=0; i < len(idx.data)-1; i++ {
     if idx.lcp[i] >= k {
-      j = idx.Block(i,k)
+      // Determine the interval [i, j] such that idx.lcp[b] >= k for b in [i,j]
+      for b=i; b<len(idx.data)-1; b++ {
+        fmt.Println("\t",b, idx.sa[b], string(idx.data[idx.sa[b] : idx.sa[b]+k]), "contig", idx.Locate_contig(idx.sa[b], k))
+        if idx.lcp[b] < k {
+          break
+        }
+      }
+      j = b-1
 
+      // Count (j-i+2) for all contigs in the interval [i,j]
       for x:=0; x<len(contig_flag); x++ {
         contig_flag[x] = false
       }
+      contig_count = 0
       for x:=i; x<=j+1; x++ {
         contig = idx.Locate_contig(idx.sa[x], k)
         if contig >= 0 {
+          if contig_flag[contig] == false {
+            contig_count++
+          }
           contig_flag[contig] = true
+        }
+        if contig_count == len(contig_flag) {
+          break
         }
       }
       for x:=0; x<len(contig_flag); x++ {
@@ -116,10 +119,8 @@ func (idx Index) Rk(k int) []float64{
         }
       }
 
-      c += uint64(j - i + 2)
-      i = j + 1
-    } else {
-      i++
+      // advance i to j+1, passing the end of the current interval
+      i = j
     }
   }
   contig_rk := make([]float64, len(idx.Repeat_count))
@@ -130,6 +131,7 @@ func (idx Index) Rk(k int) []float64{
   }
   return contig_rk
 }
+
 
 func ReadSequence(file string) []byte{
    f, err := os.Open(file)

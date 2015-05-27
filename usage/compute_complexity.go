@@ -17,7 +17,7 @@ func main(){
    idx := new(comp.Index)
    idx.Build(os.Args[1:])
 
-   k:=5
+   k:=6
    fmt.Printf("%s\tR%d\n", os.Args[1], k)
    rks := idx.Rk(k)
    for i:=0; i<len(rks); i++ {
