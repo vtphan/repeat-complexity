@@ -31,7 +31,8 @@ func (idx *Index) Print() {
   fmt.Println(idx.acc_length)
 }
 
-func (idx *Index) Build(filenames []string) {
+func New(filenames []string) *Index {
+  idx := new(Index)
   idx.acc_length = make([]int, len(filenames))
   idx.Repeat_count = make([]int, len(filenames))
   for j:=0; j<len(filenames); j++ {
@@ -46,12 +47,12 @@ func (idx *Index) Build(filenames []string) {
   ws := &WorkSpace{}
   idx.sa = make([]int, len(idx.data))
   ws.ComputeSuffixArray(idx.data, idx.sa)
-  // idx.sa = qsufsort(idx.data)
   idx.lcp = make([]int, len(idx.data)-1)  // lcp[i] stores length of lcp of sa[i] and sa[i+1]
   for i := 1; i < len(idx.data); i++ {
     idx.lcp[i-1] = idx.lcp_len(i)
   }
   idx.Length = len(idx.sa)
+  return idx
 }
 
 // length of longest common prefix of data[SA[m]:] and data[SA[m-1]:]
