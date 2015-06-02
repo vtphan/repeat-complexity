@@ -125,10 +125,14 @@ func (idx Index) Rk(k int) []float64{
     }
   }
   contig_rk := make([]float64, len(idx.Repeat_count))
-  prev := 0
+  // prev := 0
+  // for i:=0; i<len(contig_rk); i++ {
+  //   contig_rk[i] = float64(idx.Repeat_count[i])/float64(idx.acc_length[i] - prev - k + 1)
+  //   prev = idx.acc_length[i]+1
+  // }
+  // return contig_rk
   for i:=0; i<len(contig_rk); i++ {
-    contig_rk[i] = float64(idx.Repeat_count[i])/float64(idx.acc_length[i] - prev - k + 1)
-    prev = idx.acc_length[i]+1
+    contig_rk[i] = float64(idx.Repeat_count[i])/float64(idx.Length - k + 1)
   }
   return contig_rk
 }
