@@ -85,12 +85,14 @@ func (idx Index) Rk(k int) []float64{
   j, b := 0, 0
   var contig, contig_count int
   contig_flag := make([]bool, len(idx.Repeat_count))
-
+  for i:=0; i<len(idx.Repeat_count); i++ {
+    idx.Repeat_count[i] = 0
+  }
   for i:=0; i < len(idx.data)-1; i++ {
     if idx.lcp[i] >= k {
       // Determine the interval [i, j] such that idx.lcp[b] >= k for b in [i,j]
       for b=i; b<len(idx.data)-1; b++ {
-        fmt.Println("\t",b, idx.sa[b], string(idx.data[idx.sa[b] : idx.sa[b]+k]), "contig", idx.Locate_contig(idx.sa[b], k))
+        // fmt.Println("\t",b, idx.sa[b], string(idx.data[idx.sa[b] : idx.sa[b]+k]), "contig", idx.Locate_contig(idx.sa[b], k))
         if idx.lcp[b] < k {
           break
         }
